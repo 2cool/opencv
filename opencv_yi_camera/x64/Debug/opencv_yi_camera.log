@@ -1,0 +1,4 @@
+﻿  opencvyicamera.cpp
+c:\users\tcool\documents\visual studio 2017\projects\opencv_yi_camera\opencv_yi_camera\opencvyicamera.cpp(166): warning C4101: 'sx1': unreferenced local variable
+c:\users\tcool\documents\visual studio 2017\projects\opencv_yi_camera\opencv_yi_camera\opencvyicamera.cpp(166): warning C4101: 'sy1': unreferenced local variable
+  opencv_yi_camera.vcxproj -> C:\Users\tcool\Documents\Visual Studio 2017\Projects\opencv_yi_camera\x64\Debug\opencv_yi_camera.exe

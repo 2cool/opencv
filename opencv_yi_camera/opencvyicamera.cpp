@@ -86,7 +86,7 @@ int writeSprite(char p[], int n, int mx, int my) {
 
 	for (int y = 0; y<SIZE; y++)
 		for (int x = 0; x < SIZE; x++) {
-			int m = ((my + y - SIZE / 2) * 640 + mx + x - SIZE / 2) * 3;
+			int m = ((my + y - SIZE / 2) * 640 + mx + x - SIZE / 2) * 3; 
 			p[m] =     sprite[n][y][x][0];
 			p[m + 1] = sprite[n][y][x][1];
 			p[m + 2] = sprite[n][y][x][2];
