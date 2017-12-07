@@ -29,7 +29,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="opencvyicamera.cpp">
+    <ClCompile Include="opencv_mono.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

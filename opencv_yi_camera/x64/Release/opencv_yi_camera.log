@@ -6,4 +6,4 @@ opencvyicamera.cpp(190): warning C4101: 'sy1': unreferenced local variable
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  opencv_yi_camera.vcxproj -> C:\Users\tcool\Documents\Visual Studio 2017\Projects\opencv_yi_camera\x64\Release\opencv_yi_camera.exe
+  opencv_yi_camera.vcxproj -> D:\Users\2cool\Documents\Visual Studio 2017\Projects\opencv_mono_camera_test\x64\Release\opencv_yi_camera.exe

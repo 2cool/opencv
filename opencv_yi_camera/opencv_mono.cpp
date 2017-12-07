@@ -119,64 +119,127 @@ int writeBlue(char p[], int n, int mx, int my) {
 		}
 	return 0;
 }
+#define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
+
+void f(Mat des, Mat sr) {
+	uchar *dp = (uchar*)&des.at<Vec3b>(Point(0, 0));
+	uchar *sp = (uchar*)&sr.at<Vec3b>(Point(0, 0));
+
+	for (int y = 1; y < 479; y++) {
+		for (int x = 1; x < 639; x++) {
+			int p = (y * 640 + x) * 3;
+
+			int r = sp[p + 0];
+			int g = sp[p + 1];
+			int b = sp[p + 2];
+
+
+			int dc[3] = { 0,0,0 };
+
+		/*	if (x > 0) {
+				cnt++;
+				int p1 = (y * 640 + x-1) * 3;
+				dc[0] += abs(r - sp[p1]);
+				dc[1] += abs(g - sp[p1 + 1]);
+				dc[2] += abs(b - sp[p1 + 2]);
+			}
+			if (x < 639) {
+				cnt++;
+				int p1 = (y * 640 + x +1 ) * 3;
+				dc[0] += abs(r - sp[p1]);
+				dc[1] += abs(g - sp[p1 + 1]);
+				dc[2] += abs(b - sp[p1 + 2]);
+			}
+			if (y > 0) {
+				cnt++;
+				int p1 = ((y-1) * 640 + x) * 3;
+				dc[0] += abs(r - sp[p1]);
+				dc[1] += abs(g - sp[p1 + 1]);
+				dc[2] += abs(b - sp[p1 + 2]);
+			}
+			if (y < 479) {
+				cnt++;
+				int p1 = ((y+1) * 640 + x) * 3;
+				dc[0] += abs(r - sp[p1]);
+				dc[1] += abs(g - sp[p1 + 1]);
+				dc[2] += abs(b - sp[p1 + 2]);
+			}
+			*/
+
+				int p1 = ((y - 1) * 640 + x-1) * 3;
+				dc[0] += abs(r - sp[p1]);
+				dc[1] += abs(g - sp[p1 + 1]);
+				dc[2] += abs(b - sp[p1 + 2]);
+			
+
+				p1 = ((y + 1) * 640 + x+1) * 3;
+				dc[0] += abs(r - sp[p1]);
+				dc[1] += abs(g - sp[p1 + 1]);
+				dc[2] += abs(b - sp[p1 + 2]);
+
+				p1 = ((y - 1) * 640 + x + 1) * 3;
+				dc[0] += abs(r - sp[p1]);
+				dc[1] += abs(g - sp[p1 + 1]);
+				dc[2] += abs(b - sp[p1 + 2]);
+
+				p1 = ((y + 1) * 640 + x - 1) * 3;
+				dc[0] += abs(r - sp[p1]);
+				dc[1] += abs(g - sp[p1 + 1]);
+				dc[2] += abs(b - sp[p1 + 2]);
+
+#define MAXX 70
+
+			dp[p] =  constrain(dc[0], 0, 255);
+			
+			dp[p + 1] = constrain(dc[1],0,255);
+			dp[p + 2] =  constrain(dc[2], 0, 255);
+
+			int c = dp[p + 1] + dp[p + 1];
+			c /= 10;
+			dp[p] = dp[p + 1] = dp[p + 2] =  (c*c > MAXX) ? 255 : 0;
+
+		}
+	}
+
+
+
+}
+
 int main(int argc, char** argv)
 {
-	/*
-	if (argc != 2)
-	{
-		cout << " Usage: display_image ImageToLoadAndDisplay" << endl;
-		return -1;
-	}
 
-
-	cv::VideoCapture capture("rtsp://192.168.10.120/live");
-
-	if (!capture.isOpened()) {
-		//Error
-	}
-
-	cv::namedWindow("TEST", CV_WINDOW_AUTOSIZE);
-	
-	cv::Mat frame;
-
-	while (true) {
-		if (!capture.read(frame)) {
-			//Error
-			return 0;
-		}
-		namedWindow("Display window", WINDOW_AUTOSIZE);
-		imshow("Display window", frame);
-
-		//cv::imshow("TEST", frame);
-
-		cv::waitKey(30);
-	}
-
-
-	*/
-	//set the callback function for any mouse event
 	namedWindow("My Window", 1);
+	namedWindow("My Window1", 1);
 	setMouseCallback("My Window", CallBackFunc, NULL);
 
 
 	float fG0 = 0,fG1=0, fB = 0, fR = 0;
 enum {B,G,R};
-	//cap = cv2.VideoCapture(0)
+	
+VideoCapture cap("d:/2.avi");
+	//VideoCapture cap;
+	//if (!cap.open(0))
+//		return 0;
 
-	VideoCapture cap;
-	// open the default camera, use something different from 0 otherwise;
-	// Check VideoCapture documentation.
-	if (!cap.open(0))
-		return 0;
+	
+
 	for (;;)
 	{
 		Mat frame;
 		cap >> frame;
+		Mat mat=frame.clone();
+
+
+		
+		f(mat, frame);
+
+
+
 		if (frame.empty()) break; // end of video stream
 
 
 		char *p=(char*)&frame.at<Vec3b>(Point(0,0));
-
+		//char *pd = (char*)&mat.at<Vec3b>(Point(0, 0));
 		if ( mxy_done && new_p!=old_p) 
 		{
 			
@@ -190,7 +253,7 @@ enum {B,G,R};
 		int sx1, sy1;
 		
 
-
+#define MINRES (SIZE*SIZE*50*7)
 
 		for (int n=0; n<old_p; n++){
 			int res = 2000000000;
@@ -202,20 +265,24 @@ enum {B,G,R};
 				for(int x1=max(tx- SHIFT,SIZE/2); x1 < x2; x1++) {
 					int nres = compareSprite(n,x1, y1, p);
 
-					if (nres < res) {
+					if (nres < MINRES && nres < res) {
 						res = nres;
 						sx[n] = x1;
 						sy[n] = y1;
 					}
 				}
 			}
-			readSprite(n,sx[n], sy[n], p);
+			//printf("%i\n", res);
+			if (res<MINRES)
+				readSprite(n,sx[n], sy[n], p);
 			//writeSprite(p, n,sx[n], sy[n]);
 			writeBlue(p, n, sx[n], sy[n]);
 		}
 
 		//-------
+		
 		imshow("My Window", frame);
+		imshow("My Window1", mat);
 		int key=waitKey(1);
 		if (key == 0) {
 			old_p = new_p = 0;
