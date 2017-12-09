@@ -1,4 +1,5 @@
 ﻿  opencv_mono.cpp
-d:\users\2cool\documents\visual studio 2017\projects\opencv_mono_camera_test\opencv_yi_camera\opencv_mono.cpp(253): warning C4101: 'sx1': unreferenced local variable
-d:\users\2cool\documents\visual studio 2017\projects\opencv_mono_camera_test\opencv_yi_camera\opencv_mono.cpp(253): warning C4101: 'sy1': unreferenced local variable
-  opencv_yi_camera.vcxproj -> D:\Users\2cool\Documents\Visual Studio 2017\Projects\opencv_mono_camera_test\x64\Debug\opencv_yi_camera.exe
+c:\users\tcool\documents\visual studio 2017\projects\opencv_yi_camera\opencv_yi_camera\opencv_mono.cpp(238): warning C4010: single-line comment contains line-continuation character
+c:\users\tcool\documents\visual studio 2017\projects\opencv_yi_camera\opencv_yi_camera\opencv_mono.cpp(273): warning C4101: 'sx1': unreferenced local variable
+c:\users\tcool\documents\visual studio 2017\projects\opencv_yi_camera\opencv_yi_camera\opencv_mono.cpp(273): warning C4101: 'sy1': unreferenced local variable
+  opencv_yi_camera.vcxproj -> C:\Users\tcool\Documents\Visual Studio 2017\Projects\opencv_yi_camera\x64\Debug\opencv_yi_camera.exe

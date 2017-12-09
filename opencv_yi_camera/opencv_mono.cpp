@@ -10,8 +10,8 @@
 using namespace cv;
 using namespace std;
 
-
-
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
 
 #define SHIFT 16
 #define SIZE 16
@@ -121,6 +121,14 @@ int writeBlue(char p[], int n, int mx, int my) {
 }
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
+
+
+void filter(Mat des) {
+	uchar *p = (uchar*)&des.at<Vec3b>(Point(0, 0));
+
+
+}
+
 void f(Mat des, Mat sr) {
 	uchar *dp = (uchar*)&des.at<Vec3b>(Point(0, 0));
 	uchar *sp = (uchar*)&sr.at<Vec3b>(Point(0, 0));
@@ -187,7 +195,7 @@ void f(Mat des, Mat sr) {
 				dc[1] += abs(g - sp[p1 + 1]);
 				dc[2] += abs(b - sp[p1 + 2]);
 
-#define MAXX 70
+#define MAXX 2500
 
 			dp[p] =  constrain(dc[0], 0, 255);
 			
@@ -195,8 +203,9 @@ void f(Mat des, Mat sr) {
 			dp[p + 2] =  constrain(dc[2], 0, 255);
 
 			int c = dp[p + 1] + dp[p + 1];
-			c /= 10;
+			
 			dp[p] = dp[p + 1] = dp[p + 2] =  (c*c > MAXX) ? 255 : 0;
+
 
 		}
 	}
@@ -208,6 +217,13 @@ void f(Mat des, Mat sr) {
 int main(int argc, char** argv)
 {
 
+
+	
+
+
+
+
+
 	namedWindow("My Window", 1);
 	namedWindow("My Window1", 1);
 	setMouseCallback("My Window", CallBackFunc, NULL);
@@ -216,11 +232,15 @@ int main(int argc, char** argv)
 	float fG0 = 0,fG1=0, fB = 0, fR = 0;
 enum {B,G,R};
 	
-VideoCapture cap("d:/2.avi");
-	//VideoCapture cap;
-	//if (!cap.open(0))
-//		return 0;
+//VideoCapture cap("d:/2.avi");
+	VideoCapture cap;\
+	if (!cap.open(0))\
+		return 0;
 
+
+
+	//cap.open("udp://localhost:554");
+	
 	
 
 	for (;;)
@@ -228,10 +248,21 @@ VideoCapture cap("d:/2.avi");
 		Mat frame;
 		cap >> frame;
 		Mat mat=frame.clone();
+		Mat mat1 = frame.clone();
+
+		int threshold_value = 160;
+		int max_BINARY_value = 255;
+		//threshold(frame, mat, threshold_value, max_BINARY_value, THRESH_BINARY);
+		Canny(frame, mat, threshold_value, max_BINARY_value, THRESH_TOZERO);
+
+		f(mat1, frame);
 
 
-		
-		f(mat, frame);
+
+
+
+
+
 
 
 
@@ -281,7 +312,7 @@ VideoCapture cap("d:/2.avi");
 
 		//-------
 		
-		imshow("My Window", frame);
+		imshow("My Window", mat1);
 		imshow("My Window1", mat);
 		int key=waitKey(1);
 		if (key == 0) {
